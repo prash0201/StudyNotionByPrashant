@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { fetchInstructorCourses } from "../../../services/operations/courseDetailsAPI";
 import IconBtn from "../HomePage/Common/IconBtn";
 import CoursesTable from "./InstructorCourses/CoursesTable";
-
+import { VscAdd } from "react-icons/vsc";
 const MyCourses = () => {
   const { token } = useSelector((state) => state.auth);
   const navigate = useNavigate();
@@ -23,15 +23,15 @@ const MyCourses = () => {
 
   return (
     <div>
-      <div>
-        <h1>My Courses</h1>
+      <div className="mb-14 flex items-center justify-between">
+        <h1 className="text-3xl font-medium text-richblack-5">My Courses</h1>
         <IconBtn
           text="Add Course"
           onclick={() => navigate("/dashboard/add-course")}
-          // TODO ADD ICON HERE
-        />
+        >
+          <VscAdd />
+        </IconBtn>
       </div>
-
       {courses && <CoursesTable courses={courses} setCourses={setCourses} />}
     </div>
   );

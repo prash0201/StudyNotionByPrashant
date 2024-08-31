@@ -3,6 +3,7 @@ import * as Icons from "react-icons/vsc";
 import { useDispatch } from "react-redux";
 import { matchPath, useLocation } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import { resetCourseState } from "../../../slices/courseSlice";
 const SidebarLink = ({ link, iconName }) => {
   const Icon = Icons[iconName];
   const location = useLocation();
@@ -11,10 +12,12 @@ const SidebarLink = ({ link, iconName }) => {
   const matchRoute = (route) => {
     return matchPath({ path: route }, location.pathname);
   };
+
   return (
     <NavLink
       to={link.path}
       // onClick
+      onClick={() => dispatch(resetCourseState())}
       className={` relative ps-8 py-2 text-sm font-medium ${
         matchRoute(link.path) ? "bg-yellow-500" : "bg-opacity-0"
       }`}
