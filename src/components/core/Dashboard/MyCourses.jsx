@@ -13,7 +13,7 @@ const MyCourses = () => {
   useEffect(() => {
     const fetchCourses = async () => {
       const result = await fetchInstructorCourses(token);
-      console.log("Printing instructor Course", result);
+
       if (result) {
         setCourses(result);
       }
@@ -27,7 +27,7 @@ const MyCourses = () => {
         <h1 className="text-3xl font-medium text-richblack-5">My Courses</h1>
         <IconBtn
           text="Add Course"
-          onclick={() => navigate("/dashboard/add-course")}
+          onClick={() => navigate("/dashboard/add-course")}
         >
           <VscAdd />
         </IconBtn>

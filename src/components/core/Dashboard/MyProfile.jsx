@@ -6,6 +6,7 @@ import { formattedDate } from "../../../utils/dateFormatter";
 import { RiEditBoxLine } from "react-icons/ri";
 export default function MyProfile() {
   const { user } = useSelector((state) => state.profile);
+  console.log("Print User", user?.additionalDetails);
   const navigate = useNavigate();
 
   return (
@@ -29,7 +30,7 @@ export default function MyProfile() {
         </div>
         <IconBtn
           text="Edit"
-          onclick={() => {
+          onClick={() => {
             navigate("/dashboard/settings");
           }}
         >
@@ -41,7 +42,7 @@ export default function MyProfile() {
           <p className="text-lg font-semibold text-richblack-5">About</p>
           <IconBtn
             text="Edit"
-            onclick={() => {
+            onClick={() => {
               navigate("/dashboard/settings");
             }}
           >
@@ -65,7 +66,7 @@ export default function MyProfile() {
           </p>
           <IconBtn
             text="Edit"
-            onclick={() => {
+            onClick={() => {
               navigate("/dashboard/settings");
             }}
           >
@@ -109,8 +110,7 @@ export default function MyProfile() {
             <div>
               <p className="mb-2 text-sm text-richblack-600">Date Of Birth</p>
               <p className="text-sm font-medium text-richblack-5">
-                {formattedDate(user?.additionalDetails?.dateOfBirth) ??
-                  "Add Date Of Birth"}
+                {user?.additionalDetails?.dateOfBirth ?? "Add Date Of Birth"}
               </p>
             </div>
           </div>

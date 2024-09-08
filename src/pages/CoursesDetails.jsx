@@ -91,7 +91,7 @@ const CoursesDetails = () => {
       text2: "Please login  to purchase the cousre",
       btn1Text: "Login",
       btn2Text: "Cancel",
-      btn1Header: () => navigate("/login"),
+      btn1Handler: () => navigate("/login"),
       btn2Handler: () => setConfirmationModal(null),
     });
   };

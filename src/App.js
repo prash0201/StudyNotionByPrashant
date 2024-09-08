@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { Home } from "./pages/Home";
 import OpenRoute from "./components/core/Auth/OpenRoute";
 import Login from "./pages/Login";
@@ -16,7 +16,7 @@ import Settings from "./components/core/Dashboard/Settings";
 import EnrolledCourses from "./components/core/Dashboard/EnrolledCourses";
 import Cart from "./components/core/Dashboard/Cart";
 import { ACCOUNT_TYPE } from "./utils/constants";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AddCourse from "./components/core/Dashboard/AddCourses";
 import MyCourses from "./components/core/Dashboard/MyCourses";
 import EditCourse from "./components/core/Dashboard/EditCourse";
@@ -27,9 +27,21 @@ import CoursesDetails from "./pages/CoursesDetails";
 import Instructor from "./components/core/Dashboard/InstructorDashboard/Instructor";
 import Contact from "./pages/Contact";
 import Error from "./pages/Error";
+import { useEffect } from "react";
+import { getUserDetails } from "./services/operations/profileAPI";
 
 function App() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { user } = useSelector((state) => state.profile);
+
+  // useEffect(() => {
+  //   if (localStorage.getItem("token")) {
+  //     const token = JSON.parse(localStorage.getItem("token"));
+  //     dispatch(getUserDetails(token, navigate));
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   return (
     <div className="w-screen min-h-screen bg-richblack-900 flex flex-col font-inter">
@@ -39,6 +51,8 @@ function App() {
 
         <Route path="/catalog/:catalogName" element={<Catalog />}></Route>
         <Route path="/courses/:courseId" element={<CoursesDetails />}></Route>
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
         <Route
           path="login"
           element={
@@ -79,23 +93,6 @@ function App() {
           element={
             <OpenRoute>
               <VerifyEmail />
-            </OpenRoute>
-          }
-        />
-
-        <Route
-          path="about"
-          element={
-            <OpenRoute>
-              <About />
-            </OpenRoute>
-          }
-        />
-        <Route
-          path="contact"
-          element={
-            <OpenRoute>
-              <Contact />
             </OpenRoute>
           }
         />

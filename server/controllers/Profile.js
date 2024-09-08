@@ -30,14 +30,16 @@ exports.updateProfile = async (req, res) => {
     // update profile
     profileDetails.dateOfBirth = dateOfBirth;
     profileDetails.about = about;
-    profileDetails.contactNumber;
+    profileDetails.contactNumber = contactNumber;
     profileDetails.gender = gender;
 
-    await profileDetails.save();
+    console.log("print profileDetails", await profileDetails.save());
+
     // return response
     return res.status(200).json({
       success: true,
       message: "Profile Created Successfully",
+      userDetails,
     });
   } catch (error) {
     return res.status(500).json({
@@ -94,6 +96,7 @@ exports.getAllUserDetails = async (req, res) => {
     return res.status(200).json({
       success: true,
       messgae: "User data fetched successfully",
+      userDetails,
     });
   } catch (error) {
     return res.status(500).json({

@@ -34,14 +34,14 @@ const ViewCourse = () => {
   }, []);
   return (
     <>
-      <div className="text-white p-5 pr-5 mb-5">
+      <div className="relative flex min-h-[calc(100vh-3.5rem)]">
         <VideoDetailsSidebar setReviewModal={setReviewModal} />
-
-        <div>
-          <Outlet />
+        <div className="h-[calc(100vh-3.5rem)] flex-1 overflow-auto">
+          <div className="mx-6">
+            <Outlet />
+          </div>
         </div>
       </div>
-
       {reviewModal && <CourseReviewModal setReviewModal={setReviewModal} />}
     </>
   );

@@ -4,6 +4,7 @@ const otpGenerator = require("otp-generator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Profile = require("../models/Profile");
+const mailSender = require("../utils/mailSender");
 require("dotenv").config();
 
 // send otp
@@ -37,7 +38,7 @@ exports.sendOTP = async (req, res) => {
 
     // check unique OTP or not
     const result = await OTP.findOne({ otp: otp });
-
+    console.log("Before result", result);
     while (result) {
       var otp = otpGenerator.generate(6, {
         upperCaseAlphabets: false,
@@ -46,13 +47,15 @@ exports.sendOTP = async (req, res) => {
       });
       result = await OTP.findOne({ otp: otp });
     }
+    console.log("result", result);
 
     const otpPayload = { email, otp };
+    console.log("otpPayload", otpPayload);
 
     // create an entry for OTP
 
     const otpBody = await OTP.create(otpPayload);
-    console.log(otpBody);
+    console.log("otpBody,", otpBody);
     // return response successfully
 
     res.status(200).json({
@@ -246,10 +249,12 @@ exports.changePassword = async (req, res) => {
     // get user id
     const userId = req.user.id;
 
+    console.log("userId", userId);
+
     // find userDetails
     const userDetails = await User.findById(userId);
 
-    const { oldPassword, newPassword, confirmPassword } = req.body;
+    const { oldPassword, newPassword } = req.body;
     // match the passwords
     const isPasswordMatched = await bcrypt.compare(
       oldPassword,
@@ -263,7 +268,7 @@ exports.changePassword = async (req, res) => {
       });
     }
 
-    if (newPassword !== confirmPassword) {
+    if (oldPassword === newPassword) {
       return res.status(401).json({
         success: false,
         message:
@@ -284,12 +289,12 @@ exports.changePassword = async (req, res) => {
       const emailResponse = await mailSender(
         updatedUserDetails.email,
         "Password for your account has been Updated",
-        passwordUpdated(
-          updatedUserDetails.email,
-          `Password Updated Successfully for ${updatedUserDetails.firstName} ${updatedUserDetails.lastName}`
-        )
+        // passwordUpdated
+        (updatedUserDetails.email,
+        `Password Updated Successfully for ${updatedUserDetails.firstName} ${updatedUserDetails.lastName}`)
       );
-      console.log("Email sent successfully: ", emailResponse.response);
+      console.log("emailResponse", emailResponse);
+      // console.log("Email sent successfully: ", emailResponse.response);
     } catch (error) {
       console.log("Error occured while sending email: ", error);
       return res.status(500).json({
